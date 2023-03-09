@@ -1,0 +1,206 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CategoryEntity {
+  id: Int!
+  name: String!
+  level: Int!
+  parent_id: Int
+  products: [ProductEntity!]!
+  parents: [CategoryEntity!]
+  sub_categories: [CategoryEntity!]
+  products_count: String!
+}
+
+type UserEntity {
+  id: Int!
+  email: String!
+  name: String
+  surname: String
+  network_id: String
+  picture: String
+  auth_type: String!
+  orders: [OrderEntity!]
+  contact_info: ContactEntity
+}
+
+type ContactEntity {
+  id: Int!
+  region: String
+  city: String
+  warehouse: String
+  phone: Int
+}
+
+type TransactionEntity {
+  id: Int!
+  commission: Float!
+  amount: Float!
+  status: String!
+  order: OrderEntity
+}
+
+type OrderEntity {
+  id: String!
+  products: [ProductEntity!]
+  status: String!
+  transaction: TransactionEntity
+  user: UserEntity
+  contact_info: ContactEntity
+  created_at: String!
+  updated_at: String!
+}
+
+type ProductEntity {
+  id: String!
+  title: String!
+  description: String!
+  price: Int!
+  discount: Int!
+  cover_image: String!
+  images: [String!]!
+  orders: [OrderEntity!]
+  category: CategoryEntity
+  created_at: String!
+  updated_at: String!
+}
+
+type TransactionsOutput {
+  total: Int!
+  transactions: [TransactionEntity!]!
+}
+
+type LogoutOutput {
+  message: String
+  user: UserEntity
+}
+
+type UsersOutput {
+  total: Int!
+  users: [UserEntity!]!
+}
+
+type CategoryOutput {
+  total: Int!
+  categories: [CategoryEntity!]!
+}
+
+type RegionOutput {
+  Ref: String!
+  AreasCenter: String!
+  DescriptionRu: String!
+  Description: String!
+}
+
+type WarehouseOutput {
+  Description: String!
+  DescriptionRu: String!
+  Ref: String!
+  CityRef: String!
+}
+
+type CitiesOutput {
+  Description: String!
+  DescriptionRu: String!
+  Ref: String!
+  Delivery1: String!
+  Delivery2: String!
+  Delivery3: String!
+  Delivery4: String!
+  Delivery5: String!
+  Delivery6: String!
+  Delivery7: String!
+  Area: String!
+  SettlementType: String!
+  IsBranch: String!
+  PreventEntryNewStreetsUser: String!
+  CityID: String!
+  SettlementTypeDescription: String!
+  SettlementTypeDescriptionRu: String!
+  SpecialCashCheck: Int!
+  AreaDescription: String!
+  AreaDescriptionRu: String!
+}
+
+type OrdersOutput {
+  total: Int!
+  orders: [OrderEntity!]!
+}
+
+type Test {
+  test: String!
+}
+
+type ProductsOutput {
+  total: Int!
+  products: [ProductEntity!]!
+}
+
+type Query {
+  allProducts(conditions: ProductConditions, orderBy: String = "created_at", limit: Int = 10, page: Int = 1): ProductsOutput!
+  getProduct(id: String!): ProductEntity
+  test: String!
+  getCurrentUser: UserEntity
+  getUser(id: Int!): UserEntity
+  adminTest: String!
+  getUsers(orderBy: String = "id", limit: Int = 10, page: Int = 1): UsersOutput!
+  regions: [RegionOutput!]!
+  cities: [CitiesOutput!]!
+  warehousesByCity(cityRef: String!): [WarehouseOutput!]!
+  citiesByArea(areaRef: String!): [CitiesOutput!]!
+  getOrders(orderBy: String = "created_at", limit: Int = 10, page: Int = 1): OrdersOutput!
+  getOrder(id: String!): OrderEntity
+  getTransactions(orderBy: String = "id", limit: Int = 10, page: Int = 1): TransactionsOutput!
+  getTransaction(id: Int!): TransactionEntity
+  getCategories(conditions: CategoryConditions, orderBy: String = "name", limit: Int = 10, page: Int = 1): CategoryOutput!
+}
+
+input ProductConditions {
+  price: Int
+  description: String
+  discount: Int
+}
+
+input CategoryConditions {
+  level: Int
+  parentId: Int
+}
+
+type Mutation {
+  createProduct(input: ProductInput!): ProductEntity!
+  deleteProduct(ids: [String!]!): Boolean!
+  login(input: UserInput!): UserEntity!
+  register(input: UserInput!): UserEntity!
+  logout: LogoutOutput!
+  delAllUsers: Boolean!
+  createTransaction: Test!
+  verifyOrder: Test!
+  createOrder: OrderEntity!
+  deleteOrders: Boolean!
+  addCategory(category: CategoryInput!): CategoryEntity!
+  updateCategory(productIds: [String!]!, id: Int!): Boolean!
+  addSubCategory(subCategory: CategoryInput!, parentId: Int!): CategoryEntity!
+  deleteCategories(ids: [Int!]!): Boolean!
+}
+
+input ProductInput {
+  title: String!
+  description: String!
+  price: Int!
+  discount: Int!
+  category_id: Int
+  cover_image: String!
+  images: [String!]!
+}
+
+input UserInput {
+  email: String!
+  password: String!
+  user_type: String
+}
+
+input CategoryInput {
+  name: String!
+  level: Int
+}
